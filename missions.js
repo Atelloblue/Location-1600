@@ -1,4 +1,5 @@
 const missions = [
+    // ... (keep your existing missions here)
     { 
         news: "SECURITY BREACH",
         text: "A massive data leak has exposed government secrets. The public is furious and demands transparency.", 
@@ -84,6 +85,51 @@ const missions = [
             { text: "Meet Demands", sub: "Invest in the future", deltas: {bud: -300, app: 20}, run: (s) => { s.bud -= 300; s.app += 20; } }, 
             { text: "Replace with AI", sub: "Efficiency over humans", deltas: {bud: -100, app: -25, mil: 5}, run: (s) => { s.bud -= 100; s.app -= 25; s.mil += 5; } },
             { text: "Ignore Strike", sub: "The hardline stance", deltas: {app: -15}, run: (s) => { s.app -= 15; } }
+        ] 
+    },
+    { 
+        news: "PANDEMIC FEAR",
+        text: "A new virus is spreading in the slums. Health officials recommend a total lockdown.", 
+        options: [
+            { text: "Mandatory Quarantine", sub: "Safety through force", deltas: {app: -20, mil: 10, bud: -200}, run: (s) => { s.app -= 20; s.mil += 10; s.bud -= 200; } }, 
+            { text: "Fund Vaccine Research", sub: "Long term recovery", deltas: {bud: -500, app: 15}, run: (s) => { s.bud -= 500; s.app += 15; } },
+            { text: "Ignore the Reports", sub: "Economy over all", deltas: {app: -10, bud: 100}, run: (s) => { s.app -= 10; s.bud += 100; } }
+        ] 
+    },
+    { 
+        news: "OIL SPILL",
+        text: "A massive tanker leak is destroying the coastline's ecosystem and tourism.", 
+        options: [
+            { text: "Fine the Company", sub: "Corporate accountability", deltas: {bud: 400, app: 10}, run: (s) => { s.bud += 400; s.app += 10; } }, 
+            { text: "State-Led Cleanup", sub: "Fast but expensive", deltas: {bud: -300, app: 5}, run: (s) => { s.bud -= 300; s.app += 5; } },
+            { text: "Cover it Up", sub: "Protect the industry", deltas: {app: '?', bud: 50}, run: (s) => { s.bud += 50; if(Math.random() > 0.6) { s.app -= 30; } } }
+        ] 
+    },
+    { 
+        news: "BORDER DISPUTE",
+        text: "Tensions flare as soldiers from a neighboring state cross into a demilitarized zone.", 
+        options: [
+            { text: "Mobilize the Army", sub: "Show of strength", deltas: {mil: 20, bud: -200, app: -5}, run: (s) => { s.mil += 20; s.bud -= 200; s.app -= 5; } }, 
+            { text: "Diplomatic Talks", sub: "Avoid war at all costs", deltas: {app: 10, mil: -10}, run: (s) => { s.app += 10; s.mil -= 10; } },
+            { text: "Cede the Territory", sub: "Humiliating peace", deltas: {mil: -30, app: -20}, run: (s) => { s.mil -= 30; s.app -= 20; } }
+        ] 
+    },
+    { 
+        news: "CYBER ATTACK",
+        text: "The national power grid is under a sustained attack by unknown hackers.", 
+        options: [
+            { text: "Full System Reset", sub: "Temporary chaos", deltas: {app: -15, bud: -100}, run: (s) => { s.app -= 15; s.bud -= 100; } }, 
+            { text: "Upgrade Firewalls", sub: "Costly defense", deltas: {bud: -400, mil: 15}, run: (s) => { s.bud -= 400; s.mil += 15; } },
+            { text: "Retaliate blindly", sub: "Hack back", deltas: {mil: 10, app: '?'}, run: (s) => { s.mil += 10; if(Math.random() > 0.5) { s.app -= 20; } } }
+        ] 
+    },
+    { 
+        news: "NUCLEAR ENERGY",
+        text: "Scientists propose building a nuclear plant to solve the energy crisis, but locals are terrified.", 
+        options: [
+            { text: "Build the Plant", sub: "Cheap power, high risk", deltas: {bud: 600, app: -20}, run: (s) => { s.bud += 600; s.app -= 20; } }, 
+            { text: "Renewable Project", sub: "Green but slow", deltas: {bud: -400, app: 20}, run: (s) => { s.bud -= 400; s.app += 20; } },
+            { text: "Cancel the Plans", sub: "Safety first", deltas: {app: 5, bud: -100}, run: (s) => { s.app += 5; s.bud -= 100; } }
         ] 
     }
 ];
