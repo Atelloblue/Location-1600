@@ -52,7 +52,6 @@
 
         .hidden { display: none !important; }
 
-        /* DASHBOARD */
         #dashboard {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -86,7 +85,6 @@
 
         .dash-value { font-size: 1.1rem; font-weight: 600; }
 
-        /* CONTENT */
         #news-line {
             color: var(--dim-text);
             font-size: 0.75rem;
@@ -96,6 +94,8 @@
             padding-bottom: 10px;
             border-bottom: 1px solid var(--border);
         }
+
+        #news-line i { margin-right: 10px; }
 
         #scenario-text {
             flex-grow: 1;
@@ -134,6 +134,7 @@
             padding: 25px;
             margin-bottom: 12px;
             cursor: pointer;
+            transition: border-color 0.2s;
             display: flex;
             align-items: center;
             gap: 20px;
@@ -190,12 +191,15 @@
     <div id="end-screen" class="screen hidden" style="justify-content:center; text-align:center;">
         <h1 id="end-title">Term Terminated</h1>
         <p id="end-reason" style="margin-bottom: 40px; color: var(--dim-text);"></p>
-        <button class="btn" style="width: 220px; align-self: center; justify-content: center;" onclick="location.reload()">Re-Initialize</button>
+        <button class="btn" style="width: 220px; align-self: center; justify-content: center;" onclick="location.reload()">
+            <i class="fa-solid fa-rotate-right" style="margin-right: 10px;"></i> Re-Initialize
+        </button>
     </div>
 </div>
 
+<script src="missions.js"></script>
+
 <script>
-    // GAME ENGINE
     let stats = { app: 50, bud: 1000, mil: 50 };
     let turn = 1;
     let pool = [];
@@ -208,7 +212,7 @@
     function startGame(app, bud, mil) {
         stats = { app, bud, mil };
         turn = 1;
-        pool = [...missions]; 
+        pool = [...missions]; // 'missions' is now pulled from missions.js
         showScreen('game-screen');
         updateUI();
         loadMission();
@@ -242,6 +246,7 @@
             btn.className = "btn";
             btn.innerHTML = `${opt.text} <i class="fa-solid fa-chevron-right" style="font-size: 0.6rem;"></i>`;
             btn.onclick = () => {
+                // PASSING THE STATS OBJECT TO THE MISSION FUNCTION
                 opt.run(stats);
                 turn++;
                 updateUI();
@@ -256,50 +261,6 @@
         document.getElementById('end-reason').innerText = reason;
         if (turn >= 48) document.getElementById('end-title').innerText = "Term Successful";
     }
-
-    // --- MISSIONS DATABASE (Keep this at the bottom) ---
-    const missions = [
-        { 
-            text: "A massive data leak has exposed government secrets. The public is furious and demands transparency.", 
-            news: "Security Breach Detected", 
-            options: [
-                { text: "Admit Fault & Declassify", run: (s) => { s.app += 10; s.mil -= 15; } }, 
-                { text: "Censor & Detain Leakers", run: (s) => { s.app -= 20; s.mil += 10; } }
-            ] 
-        },
-        { 
-            text: "A foreign power offers a massive loan to fix infrastructure, but they want permanent control of your ports.", 
-            news: "Foreign Debt Proposal", 
-            options: [
-                { text: "Accept the Loan", run: (s) => { s.bud += 800; s.mil -= 15; } }, 
-                { text: "Reject & Austerity", run: (s) => { s.app -= 10; s.mil += 5; } }
-            ] 
-        },
-        { 
-            text: "The military high command demands a 20% budget increase for 'strategic modernization'.", 
-            news: "Pentagon Request", 
-            options: [
-                { text: "Grant Full Funding", run: (s) => { s.bud -= 400; s.mil += 20; } }, 
-                { text: "Reallocate to Social", run: (s) => { s.app += 15; s.mil -= 15; } }
-            ] 
-        },
-        { 
-            text: "A global pandemic is beginning to strain the workforce. Industry leaders demand you stay open.", 
-            news: "Public Health Emergency", 
-            options: [
-                { text: "Mandatory Lockdown", run: (s) => { s.bud -= 500; s.app += 10; } }, 
-                { text: "Prioritize Economy", run: (s) => { s.bud += 200; s.app -= 30; } }
-            ] 
-        },
-        { 
-            text: "AI automation has displaced 30% of workers. Riots are breaking out in the industrial sector.", 
-            news: "Automation Crisis", 
-            options: [
-                { text: "Tax Robots (+$300m, +10% App)", run: (s) => { s.bud += 300; s.app += 10; } }, 
-                { text: "Let it Play Out (-15% App, +5% Mil)", run: (s) => { s.app -= 15; s.mil += 5; } }
-            ] 
-        }
-    ];
 </script>
 </body>
 </html>
