@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Executive Simulator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #121212;
+            --text: #e0e0e0;
+            --dim-text: #666666;
+            --border: #2a2a2a;
+            --accent: #ffffff;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; border-radius: 0 !important; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        #game-window {
+            width: 100%;
+            max-width: 700px;
+            height: 90vh;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background: var(--surface);
+        }
+
+        .screen {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 40px;
+            background: var(--surface);
+            z-index: 5;
+        }
+
+        .hidden { display: none !important; }
+
+        /* DASHBOARD */
+        #dashboard {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            margin-bottom: 40px;
+        }
+
+        .dash-box {
+            background: var(--surface);
+            padding: 15px 5px;
+            text-align: center;
+        }
+
+        .dash-box i {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--dim-text);
+            margin-bottom: 8px;
+        }
+
+        .dash-label {
+            display: block;
+            font-size: 0.6rem;
+            color: var(--dim-text);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+        }
+
+        .dash-value { font-size: 1.1rem; font-weight: 600; }
+
+        #news-line {
+            color: var(--dim-text);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        #scenario-text {
+            flex-grow: 1;
+            font-size: 1.1rem;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        #choice-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 18px 25px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+
+        .role-card {
+            border: 1px solid var(--border);
+            padding: 25px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .role-card:hover { border-color: var(--accent); }
+
+        h1 { font-size: 1.4rem; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 40px; text-align: center; }
+
+        @media (max-width: 600px) {
+            #dashboard { grid-template-columns: 1fr 1fr; }
+            .screen { padding: 25px; }
+            #game-window { height: 100vh; border: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-window">
+    <div id="start-screen" class="screen" style="justify-content: center;">
+        <h1><i class="fa-solid fa-building-columns"></i><br>Oath of Office</h1>
+        <button class="btn" style="width: 200px; align-self: center; justify-content: center;" onclick="showScreen('char-screen')">Play</button>
+    </div>
+
+    <div id="char-screen" class="screen hidden">
+        <h1>Profile Selection</h1>
+        <div class="role-card" onclick="startGame(85, 600, 30)">
+            <i class="fa-solid fa-users"></i>
+            <div><strong>The Populist</strong><br><small>Support 85% | Treasury $600m</small></div>
+        </div>
+        <div class="role-card" onclick="startGame(45, 1800, 40)">
+            <i class="fa-solid fa-briefcase"></i>
+            <div><strong>The Tycoon</strong><br><small>Support 45% | Treasury $1800m</small></div>
+        </div>
+        <div class="role-card" onclick="startGame(35, 900, 95)">
+            <i class="fa-solid fa-shield-halved"></i>
+            <div><strong>The General</strong><br><small>Support 35% | Military 95%</small></div>
+        </div>
+    </div>
+
+    <div id="game-screen" class="screen hidden">
+        <div id="dashboard">
+            <div class="dash-box"><i class="fa-solid fa-heart-pulse"></i><span class="dash-label">Approval</span><span id="stat-app" class="dash-value">--</span></div>
+            <div class="dash-box"><i class="fa-solid fa-vault"></i><span class="dash-label">Treasury</span><span id="stat-bud" class="dash-value">--</span></div>
+            <div class="dash-box"><i class="fa-solid fa-jet-fighter"></i><span class="dash-label">Military</span><span id="stat-mil" class="dash-value">--</span></div>
+            <div class="dash-box"><i class="fa-solid fa-calendar-day"></i><span class="dash-label">Month</span><span id="turn-num" class="dash-value">1</span></div>
+        </div>
+        <div id="news-line"></div>
+        <div id="scenario-text"></div>
+        <div id="choice-container"></div>
+    </div>
+
+    <div id="end-screen" class="screen hidden" style="justify-content:center; text-align:center;">
+        <h1 id="end-title">Term Ended</h1>
+        <p id="end-reason" style="margin-bottom: 40px; color: var(--dim-text);"></p>
+        <button class="btn" style="width: 220px; align-self: center; justify-content: center;" onclick="location.reload()">Re-Initialize</button>
+    </div>
+</div>
+
+<script src="missions.js"></script>
+
+<script>
+    let stats = { app: 50, bud: 1000, mil: 50 };
+    let turn = 1;
+    let pool = [];
+
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+        document.getElementById(id).classList.remove('hidden');
+    }
+
+    function startGame(app, bud, mil) {
+        stats = { app, bud, mil };
+        turn = 1;
+        pool = [...missions]; // 'missions' comes from missions.js
+        showScreen('game-screen');
+        updateUI();
+        loadMission();
+    }
+
+    function updateUI() {
+        document.getElementById('stat-app').innerText = stats.app + "%";
+        document.getElementById('stat-bud').innerText = "$" + stats.bud + "m";
+        document.getElementById('stat-mil').innerText = stats.mil + "%";
+        document.getElementById('turn-num').innerText = turn + "/48";
+
+        if (stats.app <= 0) gameOver("IMPEACHED: Public trust has dissolved.");
+        else if (stats.bud <= 0) gameOver("BANKRUPT: Treasury empty.");
+        else if (stats.mil <= 0) gameOver("COUP: Military seized control.");
+        else if (turn >= 48) gameOver("SUCCESS: Term completed.");
+    }
+
+    function loadMission() {
+        if (pool.length === 0) pool = [...missions];
+        const idx = Math.floor(Math.random() * pool.length);
+        const m = pool.splice(idx, 1)[0];
+        
+        document.getElementById('scenario-text').innerText = m.text;
+        document.getElementById('news-line').innerHTML = `<i class="fa-solid fa-folder-open"></i> REPORT: ${m.news}`;
+        
+        const container = document.getElementById('choice-container');
+        container.innerHTML = "";
+
+        m.options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = "btn";
+            btn.innerHTML = `${opt.text} <i class="fa-solid fa-chevron-right" style="font-size: 0.6rem;"></i>`;
+            btn.onclick = () => {
+                opt.run(stats); // Pass stats to the external function
+                turn++;
+                updateUI();
+                if (turn <= 48 && stats.app > 0 && stats.bud > 0 && stats.mil > 0) loadMission();
+            };
+            container.appendChild(btn);
+        });
+    }
+
+    function gameOver(reason) {
+        showScreen('end-screen');
+        document.getElementById('end-reason').innerText = reason;
+        if (turn >= 48) document.getElementById('end-title').innerText = "Term Successful";
+    }
+</script>
+</body>
+</html>
