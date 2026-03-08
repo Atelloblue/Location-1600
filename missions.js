@@ -1,5 +1,4 @@
 const missions = [
-    // ... (keep your existing missions here)
     { 
         news: "SECURITY BREACH",
         text: "A massive data leak has exposed government secrets. The public is furious and demands transparency.", 
@@ -130,6 +129,87 @@ const missions = [
             { text: "Build the Plant", sub: "Cheap power, high risk", deltas: {bud: 600, app: -20}, run: (s) => { s.bud += 600; s.app -= 20; } }, 
             { text: "Renewable Project", sub: "Green but slow", deltas: {bud: -400, app: 20}, run: (s) => { s.bud -= 400; s.app += 20; } },
             { text: "Cancel the Plans", sub: "Safety first", deltas: {app: 5, bud: -100}, run: (s) => { s.app += 5; s.bud -= 100; } }
+        ] 
+    },
+    // --- NEW EXTRA MISSIONS ---
+    { 
+        news: "AI SUPREMACY",
+        text: "Silicon Valley researchers have developed an AI that can manage the economy better than humans.", 
+        options: [
+            { text: "Give AI Control", sub: "Perfect efficiency", deltas: {bud: 700, app: -25}, run: (s) => { s.bud += 700; s.app -= 25; } }, 
+            { text: "Ban AI Management", sub: "Keep human jobs", deltas: {app: 15, bud: -200}, run: (s) => { s.app += 15; s.bud -= 200; } }
+        ] 
+    },
+    { 
+        news: "INSIDER TRADING",
+        text: "Your Finance Minister was caught leaking treasury data to bank executives.", 
+        options: [
+            { text: "Public Prosecution", sub: "Transparency wins", deltas: {app: 15, bud: -100}, run: (s) => { s.app += 15; s.bud -= 100; } }, 
+            { text: "Take a Cut", sub: "Private payoff", deltas: {bud: 500, app: -30}, run: (s) => { s.bud += 500; s.app -= 30; } }
+        ] 
+    },
+    { 
+        news: "PRISON RIOT",
+        text: "The largest state prison has been taken over by inmates protesting conditions.", 
+        options: [
+            { text: "Storm the Prison", sub: "Military solution", deltas: {mil: 10, app: -15}, run: (s) => { s.mil += 10; s.app -= 15; } }, 
+            { text: "Negotiate Reform", sub: "Human rights approach", deltas: {app: 15, bud: -200}, run: (s) => { s.app += 15; s.bud -= 200; } }
+        ] 
+    },
+    { 
+        news: "COUP PLOT",
+        text: "Intelligence suggests a mid-level Colonel is planning a move against your cabinet.", 
+        options: [
+            { text: "Quiet Purge", sub: "Remove the threat", deltas: {mil: -15, app: -5}, run: (s) => { s.mil -= 15; s.app -= 5; } }, 
+            { text: "Promote Him", sub: "Keep your enemies close", deltas: {mil: 10, app: '?'}, run: (s) => { s.mil += 10; if(Math.random() > 0.4) { s.app -= 15; } } }
+        ] 
+    },
+    { 
+        news: "OLYMPIC BID",
+        text: "The Committee asks your nation to host the upcoming Games.", 
+        options: [
+            { text: "Host the Games", sub: "Global glory, high debt", deltas: {bud: -800, app: 30}, run: (s) => { s.bud -= 800; s.app += 30; } }, 
+            { text: "Decline Offer", sub: "Focus on basics", deltas: {bud: 100, app: -10}, run: (s) => { s.bud += 100; s.app -= 10; } }
+        ] 
+    },
+    { 
+        news: "CURRENCY CRASH",
+        text: "The national currency is losing value rapidly against global markets.", 
+        options: [
+            { text: "Raise Interest Rates", sub: "Halt inflation", deltas: {app: -20, bud: 100}, run: (s) => { s.app -= 20; s.bud += 100; } }, 
+            { text: "Print More Money", sub: "Dangerous gamble", deltas: {bud: 500, app: '?'}, run: (s) => { s.bud += 500; s.app -= 40; } }
+        ] 
+    },
+    { 
+        news: "WILDERNESS FIRE",
+        text: "A massive wildfire is threatening the nation's timber industry and air quality.", 
+        options: [
+            { text: "Emergency Response", sub: "Save the forests", deltas: {bud: -300, app: 10}, run: (s) => { s.bud -= 300; s.app += 10; } }, 
+            { text: "Let it Burn", sub: "Save the budget", deltas: {bud: 50, app: -25}, run: (s) => { s.bud += 50; s.app -= 25; } }
+        ] 
+    },
+    { 
+        news: "TAX THE RICH",
+        text: "A popular movement demands a 70% wealth tax on billionaires.", 
+        options: [
+            { text: "Pass the Tax", sub: "Voters love it", deltas: {app: 25, bud: 600}, run: (s) => { s.app += 25; s.bud += 600; } }, 
+            { text: "Protect Business", sub: "Keep investors happy", deltas: {bud: -200, app: -15, mil: 5}, run: (s) => { s.bud -= 200; s.app -= 15; s.mil += 5; } }
+        ] 
+    },
+    { 
+        news: "NATIONAL HOLIDAY",
+        text: "It is the anniversary of the country's founding. Citizens expect a celebration.", 
+        options: [
+            { text: "Grand Parade", sub: "High morale, military pride", deltas: {app: 15, mil: 10, bud: -300}, run: (s) => { s.app += 15; s.mil += 10; s.bud -= 300; } }, 
+            { text: "Humble Ceremony", sub: "Save resources", deltas: {app: -5, bud: 50}, run: (s) => { s.app -= 5; s.bud += 50; } }
+        ] 
+    },
+    { 
+        news: "WATER PRIVATIZATION",
+        text: "A global utility corp wants to buy the national water supply system.", 
+        options: [
+            { text: "Sell System", sub: "Huge cash windfall", deltas: {bud: 900, app: -40}, run: (s) => { s.bud += 900; s.app -= 40; } }, 
+            { text: "Keep Public", sub: "Safe but expensive", deltas: {bud: -200, app: 10}, run: (s) => { s.bud -= 200; s.app += 10; } }
         ] 
     }
 ];
