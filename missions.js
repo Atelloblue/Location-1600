@@ -1,3 +1,4 @@
+/* Keep this file separated from index.html */
 const missions = [
     { 
         news: "SECURITY BREACH",
@@ -131,7 +132,6 @@ const missions = [
             { text: "Cancel the Plans", sub: "Safety first", deltas: {app: 5, bud: -100}, run: (s) => { s.app += 5; s.bud -= 100; } }
         ] 
     },
-    // --- NEW EXTRA MISSIONS ---
     { 
         news: "AI SUPREMACY",
         text: "Silicon Valley researchers have developed an AI that can manage the economy better than humans.", 
@@ -210,6 +210,174 @@ const missions = [
         options: [
             { text: "Sell System", sub: "Huge cash windfall", deltas: {bud: 900, app: -40}, run: (s) => { s.bud += 900; s.app -= 40; } }, 
             { text: "Keep Public", sub: "Safe but expensive", deltas: {bud: -200, app: 10}, run: (s) => { s.bud -= 200; s.app += 10; } }
+        ] 
+    },
+    { 
+        news: "GENETIC EDITING",
+        text: "Scientists have perfected 'Designer Baby' technology. Elites are eager to pay for it.", 
+        options: [
+            { text: "Legalize & Tax", sub: "Economic boom, social divide", deltas: {bud: 700, app: -20}, run: (s) => { s.bud += 700; s.app -= 20; } }, 
+            { text: "Ban Technology", sub: "Moral high ground", deltas: {app: 15, bud: -100}, run: (s) => { s.app += 15; s.bud -= 100; } },
+            { text: "State Super-Soldiers", sub: "Military evolution", deltas: {mil: 30, app: -30, bud: -400}, run: (s) => { s.mil += 30; s.app -= 30; s.bud -= 400; } }
+        ] 
+    },
+    { 
+        news: "WHISTLEBLOWER",
+        text: "An ex-agent reveals the state has been spying on every citizen's private messages.", 
+        options: [
+            { text: "Apologize & Stop", sub: "Restore privacy", deltas: {app: 20, mil: -15}, run: (s) => { s.app += 20; s.mil -= 15; } }, 
+            { text: "Double Down", sub: "Security is paramount", deltas: {app: -30, mil: 20}, run: (s) => { s.app -= 30; s.mil += 20; } },
+            { text: "Discredit Source", sub: "Character assassination", deltas: {app: '?', mil: 5}, run: (s) => { if(Math.random() > 0.5) { s.app += 5; } else { s.app -= 25; } } }
+        ] 
+    },
+    { 
+        news: "ROBOTIC LABOR",
+        text: "The manufacturing sector wants to replace 50% of the workforce with automated bots.", 
+        options: [
+            { text: "Tax the Robots", sub: "Fund the safety net", deltas: {bud: 400, app: 5}, run: (s) => { s.bud += 400; s.app += 5; } }, 
+            { text: "Unrestricted Growth", sub: "Corporate efficiency", deltas: {bud: 600, app: -30}, run: (s) => { s.bud += 600; s.app -= 30; } },
+            { text: "Protect Unions", sub: "Ban the machines", deltas: {app: 20, bud: -300}, run: (s) => { s.app += 20; s.bud -= 300; } }
+        ] 
+    },
+    { 
+        news: "CASHLESS SOCIETY",
+        text: "The Central Bank proposes deleting physical currency to track all transactions.", 
+        options: [
+            { text: "Digital Only", sub: "End the black market", deltas: {bud: 300, mil: 10, app: -20}, run: (s) => { s.bud += 300; s.mil += 10; s.app -= 20; } }, 
+            { text: "Keep Cash", sub: "Privacy and tradition", deltas: {app: 15, bud: -50}, run: (s) => { s.app += 15; s.bud -= 50; } }
+        ] 
+    },
+    { 
+        news: "DEEP SEA DRILLING",
+        text: "Massive oil reserves found in a protected marine sanctuary. The industry is salivating.", 
+        options: [
+            { text: "Drill Everywhere", sub: "Energy independence", deltas: {bud: 800, app: -25}, run: (s) => { s.bud += 800; s.app -= 25; } }, 
+            { text: "Protect Sanctuary", sub: "Environmental legacy", deltas: {app: 20, bud: -100}, run: (s) => { s.app += 20; s.bud -= 100; } }
+        ] 
+    },
+    { 
+        news: "SATELLITE DOWN",
+        text: "A foreign nation 'accidentally' destroyed your primary communications satellite.", 
+        options: [
+            { text: "Demand Reparations", sub: "Diplomatic pressure", deltas: {bud: 200, app: 5}, run: (s) => { s.bud += 200; s.app += 5; } }, 
+            { text: "Orbital Retaliation", sub: "Eye for an eye", deltas: {mil: 15, bud: -300, app: -10}, run: (s) => { s.mil += 15; s.bud -= 300; s.app -= 10; } },
+            { text: "Cyber Response", sub: "Hidden strike", deltas: {mil: 5, app: '?'}, run: (s) => { s.mil += 5; if(Math.random() > 0.6) { s.app -= 15; } } }
+        ] 
+    },
+    { 
+        news: "BRAIN DRAIN",
+        text: "The nation's top scientists are moving abroad for better pay and freedom.", 
+        options: [
+            { text: "Subsidize Salaries", sub: "Expensive retention", deltas: {bud: -500, app: 10}, run: (s) => { s.bud -= 500; s.app += 10; } }, 
+            { text: "Exit Visas", sub: "Force them to stay", deltas: {app: -30, mil: 10}, run: (s) => { s.app -= 30; s.mil += 10; } }
+        ] 
+    },
+    { 
+        news: "FAKE NEWS VIRAL",
+        text: "A viral deepfake of you accepting a bribe is circulating. Half the country believes it.", 
+        options: [
+            { text: "Shut Down Internet", sub: "Stop the spread", deltas: {app: -40, mil: 20, bud: -200}, run: (s) => { s.app -= 40; s.mil += 20; s.bud -= 200; } }, 
+            { text: "Independent Audit", sub: "Prove your innocence", deltas: {app: 10, bud: -100}, run: (s) => { s.app += 10; s.bud -= 100; } },
+            { text: "Counter-Propaganda", sub: "Fight fire with fire", deltas: {bud: -150, app: '?'}, run: (s) => { s.bud -= 150; s.app += (Math.random() > 0.5 ? 20 : -10); } }
+        ] 
+    },
+    { 
+        news: "HOUSING CRISIS",
+        text: "Rent prices have tripled. Young people are sleeping in parks and vehicles.", 
+        options: [
+            { text: "Rent Control", sub: "Popular, but hurts growth", deltas: {app: 25, bud: -100}, run: (s) => { s.app += 25; s.bud -= 100; } }, 
+            { text: "Seize Empty Units", sub: "Radical redistribution", deltas: {app: 30, bud: -200, mil: -10}, run: (s) => { s.app += 30; s.bud -= 200; s.mil -= 10; } },
+            { text: "Build Megatowers", sub: "Slow but permanent", deltas: {bud: -600, app: 10}, run: (s) => { s.bud -= 600; s.app += 10; } }
+        ] 
+    },
+    { 
+        news: "ALIEN SIGNAL",
+        text: "Radio telescopes have confirmed a non-random signal from the Proxima system.", 
+        options: [
+            { text: "Global Broadcast", sub: "Unite humanity", deltas: {app: 30, mil: -10}, run: (s) => { s.app += 30; s.mil -= 10; } }, 
+            { text: "Classify Top Secret", sub: "Knowledge is power", deltas: {mil: 20, app: -10}, run: (s) => { s.mil += 20; s.app -= 10; } },
+            { text: "Weaponize Research", sub: "Prepare for the worst", deltas: {mil: 40, bud: -500}, run: (s) => { s.mil += 40; s.bud -= 500; } }
+        ] 
+    },
+    { 
+        news: "AUTOMATED JUSTICE",
+        text: "The Ministry of Justice wants to replace judges with 'bias-free' AI algorithms to clear the case backlog.", 
+        options: [
+            { text: "Implement AI Judges", sub: "Swift, cold efficiency", deltas: {bud: 300, app: -15, mil: 5}, run: (s) => { s.bud += 300; s.app -= 15; s.mil += 5; } }, 
+            { text: "Expand Human Courts", sub: "Justice with a soul", deltas: {bud: -400, app: 15}, run: (s) => { s.bud -= 400; s.app += 15; } }
+        ] 
+    },
+    { 
+        news: "CULTURAL REPATRIATION",
+        text: "A former colony demands the return of ancient artifacts currently held in your national museum.", 
+        options: [
+            { text: "Return Artifacts", sub: "Global respect, lost tourism", deltas: {app: 10, bud: -100}, run: (s) => { s.app += 10; s.bud -= 100; } }, 
+            { text: "Refuse Claim", sub: "National heritage first", deltas: {app: -5, mil: 5}, run: (s) => { s.app -= 5; s.mil += 5; } }
+        ] 
+    },
+    { 
+        news: "SINKING COASTLINE",
+        text: "Rising sea levels are flooding the capital's subway system. Engineers propose a massive sea wall.", 
+        options: [
+            { text: "The Great Barrier", sub: "Unprecedented engineering", deltas: {bud: -900, app: 20}, run: (s) => { s.bud -= 900; s.app += 20; } }, 
+            { text: "Inland Migration", sub: "Abandon the coast", deltas: {app: -40, bud: -200, mil: 10}, run: (s) => { s.app -= 40; s.bud -= 200; s.mil += 10; } }
+        ] 
+    },
+    { 
+        news: "BRAIN-COMPUTER LINK",
+        text: "A tech startup offers to implant neural chips in workers to 'triple productivity'.", 
+        options: [
+            { text: "Mandate for State Staff", sub: "Dystopian efficiency", deltas: {bud: 500, app: -30, mil: 20}, run: (s) => { s.bud += 500; s.app -= 30; s.mil += 20; } }, 
+            { text: "Strict Regulation", sub: "Humanity over output", deltas: {app: 15, bud: -150}, run: (s) => { s.app += 15; s.bud -= 150; } }
+        ] 
+    },
+    { 
+        news: "SOCIAL CREDIT SYSTEM",
+        text: "The Security Bureau wants to track citizen behavior to 'incentivize good patriotism'.", 
+        options: [
+            { text: "Launch the System", sub: "Total social order", deltas: {mil: 25, app: -25}, run: (s) => { s.mil += 25; s.app -= 25; } }, 
+            { text: "Reject Surveillance", sub: "Freedom over safety", deltas: {app: 20, mil: -15}, run: (s) => { s.app += 20; s.mil -= 15; } }
+        ] 
+    },
+    { 
+        news: "FROZEN ASSETS",
+        text: "An exiled dictator's billions have been found in your national banks. The world is watching.", 
+        options: [
+            { text: "Seize for Treasury", sub: "Immediate wealth injection", deltas: {bud: 1000, app: -10}, run: (s) => { s.bud += 1000; s.app -= 10; } }, 
+            { text: "Return to the People", sub: "International praise", deltas: {app: 20, bud: -50}, run: (s) => { s.app += 20; s.bud -= 50; } }
+        ] 
+    },
+    { 
+        news: "MILITARY EXERCISE",
+        text: "A rival nation is conducting live-fire drills right on your maritime border.", 
+        options: [
+            { text: "Symmetric Response", sub: "Show of force", deltas: {mil: 15, bud: -200, app: -5}, run: (s) => { s.mil += 15; s.bud -= 200; s.app -= 5; } }, 
+            { text: "Ignore Provocation", sub: "Calculated restraint", deltas: {mil: -10, app: 5}, run: (s) => { s.mil -= 10; s.app += 5; } }
+        ] 
+    },
+    { 
+        news: "ENERGY SHORTAGE",
+        text: "The national grid is failing. You must choose which sector to blackout.", 
+        options: [
+            { text: "Cut Residential", sub: "Save the factories", deltas: {app: -30, bud: 100}, run: (s) => { s.app -= 30; s.bud += 100; } }, 
+            { text: "Cut Industrial", sub: "People over profit", deltas: {bud: -400, app: 15}, run: (s) => { s.bud -= 400; s.app += 15; } }
+        ] 
+    },
+    { 
+        news: "LAB-GROWN MEAT",
+        text: "The agricultural lobby is protesting against new synthetic protein factories.", 
+        options: [
+            { text: "Ban Synthetic Meat", sub: "Protect the farmers", deltas: {app: 10, bud: -150}, run: (s) => { s.app += 10; s.bud -= 150; } }, 
+            { text: "Subsidize Labs", sub: "End hunger forever", deltas: {bud: -300, app: 15}, run: (s) => { s.bud -= 300; s.app += 15; } }
+        ] 
+    },
+    { 
+        news: "RELIGIOUS APOCALYPSE",
+        text: "A doomsday cult is gaining popularity, claiming the end is near and taxes are irrelevant.", 
+        options: [
+            { text: "Forceful Crackdown", sub: "End the heresy", deltas: {mil: 15, app: -20}, run: (s) => { s.mil += 15; s.app -= 20; } }, 
+            { text: "Public Debate", sub: "Peaceful de-escalation", deltas: {app: 10, bud: -100}, run: (s) => { s.app += 10; s.bud -= 100; } },
+            { text: "Infiltrate", sub: "Risky intelligence op", deltas: {mil: 5, app: '?'}, run: (s) => { s.mil += 5; s.app += (Math.random() > 0.5 ? 10 : -30); } }
         ] 
     }
 ];
