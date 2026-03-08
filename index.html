@@ -14,6 +14,8 @@
             --border: #2a2a2a;
             --accent: #ffffff;
             --error: #ff4444;
+            --success: #2ecc71;
+            --warning: #f1c40f;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; border-radius: 0 !important; }
@@ -39,6 +41,7 @@
             flex-direction: column;
             position: relative;
             background: var(--surface);
+            overflow: hidden;
         }
 
         .screen {
@@ -62,7 +65,8 @@
             margin-bottom: 40px;
         }
 
-        .dash-box { background: var(--surface); padding: 15px 5px; text-align: center; }
+        .dash-box { background: var(--surface); padding: 15px 5px; text-align: center; border-right: 1px solid var(--border); }
+        .dash-box:last-child { border-right: none; }
         .dash-box i { display: block; font-size: 0.9rem; color: var(--dim-text); margin-bottom: 8px; }
         .dash-label { display: block; font-size: 0.6rem; color: var(--dim-text); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
         .dash-value { font-size: 1.1rem; font-weight: 600; }
@@ -92,7 +96,6 @@
         .btn:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
         .btn:hover .stat-preview { color: var(--bg); border-left-color: rgba(0,0,0,0.2); }
 
-        /* New Preview Styling */
         .stat-preview { 
             font-family: monospace; 
             font-size: 0.7rem; 
@@ -104,9 +107,8 @@
             min-width: 80px;
         }
 
-        .role-card { border: 1px solid var(--border); padding: 25px; margin-bottom: 12px; cursor: pointer; transition: border-color 0.2s; display: flex; align-items: center; gap: 20px; }
-        .role-card:hover { border-color: var(--accent); }
-        .role-card i { font-size: 1.5rem; color: var(--dim-text); }
+        .role-card { border: 1px solid var(--border); padding: 25px; margin-bottom: 12px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 20px; }
+        .role-card:hover { border-color: var(--accent); background: rgba(255,255,255,0.05); }
 
         #error-overlay {
             position: absolute;
@@ -136,9 +138,9 @@
 <div id="game-window">
     <div id="error-overlay" class="hidden">
         <i class="fa-solid fa-triangle-exclamation" style="font-size: 3rem; margin-bottom: 20px;"></i>
-        <h2 style="text-transform: uppercase; letter-spacing: 2px;">Something went wrong</h2>
+        <h2 style="text-transform: uppercase; letter-spacing: 2px;">System Failure</h2>
         <p id="error-message" style="color: var(--dim-text); margin-bottom: 30px;"></p>
-        <button class="btn" onclick="location.reload()">Reload</button>
+        <button class="btn" onclick="location.reload()">Reboot</button>
     </div>
 
     <div id="start-screen" class="screen" style="justify-content: center;">
@@ -146,33 +148,21 @@
         <button class="btn" style="width: 200px; align-self: center; justify-content: center;" onclick="checkSystem()">Play</button>
     </div>
 
-<div id="char-screen" class="screen hidden">
-    <h1>Select Difficulty</h1>
-    
-    <div class="role-card" onclick="startGame(80, 2000, 70)">
-        <i class="fa-solid fa-gauge" style="color: #2ecc71;"></i>
-        <div>
-            <strong>EASY MODE</strong><br>
-            <small>High starting stats. Plenty of room for error.</small>
+    <div id="char-screen" class="screen hidden">
+        <h1>Select Difficulty</h1>
+        <div class="role-card" onclick="startGame(80, 2000, 70)">
+            <i class="fa-solid fa-gauge" style="color: var(--success);"></i>
+            <div><strong>EASY</strong><br><small>High stability. Plenty of room for error.</small></div>
+        </div>
+        <div class="role-card" onclick="startGame(50, 1000, 50)">
+            <i class="fa-solid fa-gauge" style="color: var(--warning);"></i>
+            <div><strong>MEDIUM</strong><br><small>Balanced stats. Standard challenge.</small></div>
+        </div>
+        <div class="role-card" onclick="startGame(30, 500, 30)">
+            <i class="fa-solid fa-gauge" style="color: var(--error);"></i>
+            <div><strong>HARD</strong><br><small>Crisis levels. Every choice is life or death.</small></div>
         </div>
     </div>
-
-    <div class="role-card" onclick="startGame(50, 1000, 50)">
-        <i class="fa-solid fa-gauge" style="color: #f1c40f;"></i>
-        <div>
-            <strong>MEDIUM MODE</strong><br>
-            <small>Balanced stats. Requires careful decision making.</small>
-        </div>
-    </div>
-
-    <div class="role-card" onclick="startGame(30, 500, 30)">
-        <i class="fa-solid fa-gauge" style="color: #e74c3c;"></i>
-        <div>
-            <strong>HARD MODE</strong><br>
-            <small>Crisis levels. One wrong move could end your term.</small>
-        </div>
-    </div>
-</div>
 
     <div id="game-screen" class="screen hidden">
         <div id="dashboard">
@@ -181,14 +171,15 @@
             <div class="dash-box"><i class="fa-solid fa-jet-fighter"></i><span class="dash-label">Military</span><span id="stat-mil" class="dash-value">--</span></div>
             <div class="dash-box"><i class="fa-solid fa-calendar-day"></i><span class="dash-label">Month</span><span id="turn-num" class="dash-value">1</span></div>
         </div>
-        <div id="news-line"><i class="fa-solid fa-folder-open"></i> Intelligence Briefing</div>
-        <div id="scenario-text">Awaiting input...</div>
+        <div id="news-line"></div>
+        <div id="scenario-text"></div>
         <div id="choice-container"></div>
     </div>
 
     <div id="end-screen" class="screen hidden" style="justify-content:center; text-align:center;">
         <h1 id="end-title">Term Ended</h1>
-        <p id="end-reason" style="margin-bottom: 40px; color: var(--dim-text);"></p>
+        <p id="end-reason" style="margin-bottom: 10px; color: var(--dim-text);"></p>
+        <p id="end-legacy" style="font-weight: bold; margin-bottom: 40px; color: var(--accent);"></p>
         <button class="btn" style="width: 220px; align-self: center; justify-content: center;" onclick="location.reload()">
             <i class="fa-solid fa-rotate-right" style="margin-right: 10px;"></i> Restart
         </button>
@@ -201,6 +192,7 @@
     let stats = { app: 50, bud: 1000, mil: 50 };
     let turn = 1;
     let pool = [];
+    let underInquiry = false;
 
     function showError(msg) {
         document.getElementById('error-message').innerText = msg;
@@ -217,14 +209,13 @@
 
     function showScreen(id) {
         document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
-        const screen = document.getElementById(id);
-        if (screen) screen.classList.remove('hidden');
-        else showError(`Screen ID "${id}" not found.`);
+        document.getElementById(id).classList.remove('hidden');
     }
 
     function startGame(app, bud, mil) {
         stats = { app, bud, mil };
         turn = 1;
+        underInquiry = false;
         pool = [...missions];
         showScreen('game-screen');
         updateUI();
@@ -232,22 +223,58 @@
     }
 
     function updateUI() {
-        try {
-            document.getElementById('stat-app').innerText = stats.app + "%";
-            document.getElementById('stat-bud').innerText = "$" + stats.bud + "m";
-            document.getElementById('stat-mil').innerText = stats.mil + "%";
-            document.getElementById('turn-num').innerText = turn + "/48";
+        document.getElementById('stat-app').innerText = stats.app + "%";
+        document.getElementById('stat-bud').innerText = "$" + stats.bud + "m";
+        document.getElementById('stat-mil').innerText = stats.mil + "%";
+        document.getElementById('turn-num').innerText = turn + "/48";
 
-            if (stats.app <= 0) gameOver("IMPEACHED: Public trust has dissolved.");
-            else if (stats.bud <= 0) gameOver("BANKRUPT: Treasury empty.");
-            else if (stats.mil <= 0) gameOver("COUP: Military seized control.");
-            else if (turn >= 48) gameOver("SUCCESS: Term completed.");
-        } catch (e) {
-            showError("UI Update Failed: " + e.message);
-        }
+        // Logic Check
+        if (stats.app <= 0) gameOver("IMPEACHED: The Senate has removed you from office.");
+        else if (stats.bud <= 0) gameOver("BANKRUPT: National credit has hit zero.");
+        else if (stats.mil <= 0) gameOver("COUP: The military has seized the capital.");
+        else if (turn >= 48) gameOver("SUCCESS: You served your full term.");
+        
+        // Crisis Trigger
+        else if (stats.app < 10 && !underInquiry) triggerImpeachment();
+        else if (stats.mil < 10 && !underInquiry) triggerCoup();
     }
 
-    // Helper to format the numerical preview text
+    function triggerImpeachment() {
+        underInquiry = true;
+        document.getElementById('news-line').innerHTML = `<i class="fa-solid fa-gavel" style="color:var(--error)"></i> CONSTITUTIONAL CRISIS`;
+        document.getElementById('scenario-text').innerText = "With single-digit approval, the House has filed Articles of Impeachment. You must defend your office in the Senate.";
+        
+        renderCrisisOptions([
+            { text: "Lobby the Senate", sub: "Spend $500m on 'political donations'.", run: (s) => { s.bud -= 500; s.app += 15; underInquiry = false; } },
+            { text: "Rally the People", sub: "A risky 50/50 speech to save your seat.", run: (s) => { if(Math.random() > 0.5) { s.app += 25; underInquiry = false; } else { s.app = 0; } } },
+            { text: "Resign", sub: "Exit with a shred of dignity.", run: (s) => { gameOver("RESIGNED: You left office before the trial ended."); } }
+        ]);
+    }
+
+    function triggerCoup() {
+        underInquiry = true;
+        document.getElementById('news-line').innerHTML = `<i class="fa-solid fa-person-rifle" style="color:var(--error)"></i> MILITARY UNREST`;
+        document.getElementById('scenario-text').innerText = "Generals have surrounded the Palace. They claim you've weakened the state and demand you step down immediately.";
+        
+        renderCrisisOptions([
+            { text: "Bribe the High Command", sub: "Give the Military $400m.", run: (s) => { s.bud -= 400; s.mil += 20; underInquiry = false; } },
+            { text: "Order Counter-Arrest", sub: "Try to purge the traitors (40% success).", run: (s) => { if(Math.random() > 0.6) { s.mil += 30; underInquiry = false; } else { s.mil = 0; } } },
+            { text: "Flee in Secret", sub: "Escape to a neighboring country.", run: (s) => { gameOver("EXILED: You fled as tanks entered the capital."); } }
+        ]);
+    }
+
+    function renderCrisisOptions(options) {
+        const container = document.getElementById('choice-container');
+        container.innerHTML = "";
+        options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = "btn";
+            btn.innerHTML = `<div><strong>${opt.text}</strong><br><small>${opt.sub}</small></div>`;
+            btn.onclick = () => { opt.run(stats); updateUI(); if(!underInquiry && stats.app > 0 && stats.mil > 0) loadMission(); };
+            container.appendChild(btn);
+        });
+    }
+
     function formatDelta(val, label) {
         if (!val) return "";
         if (val === '?') return `?? ${label}`;
@@ -255,69 +282,50 @@
     }
 
     function loadMission() {
-        try {
-            if (pool.length === 0) pool = [...missions];
-            const idx = Math.floor(Math.random() * pool.length);
-            const m = pool.splice(idx, 1)[0];
-            
-            if (!m || !m.options) throw new Error("Mission data incomplete.");
+        if (underInquiry) return;
+        if (pool.length === 0) pool = [...missions];
+        const idx = Math.floor(Math.random() * pool.length);
+        const m = pool.splice(idx, 1)[0];
 
-            document.getElementById('scenario-text').innerText = m.text;
-            document.getElementById('news-line').innerHTML = `<i class="fa-solid fa-folder-open"></i> REPORT: ${m.news}`;
-            
-            const container = document.getElementById('choice-container');
-            container.innerHTML = "";
+        document.getElementById('scenario-text').innerText = m.text;
+        document.getElementById('news-line').innerHTML = `<i class="fa-solid fa-folder-open"></i> REPORT: ${m.news}`;
+        
+        const container = document.getElementById('choice-container');
+        container.innerHTML = "";
 
-            m.options.forEach(opt => {
-                const btn = document.createElement('button');
-                btn.className = "btn";
+        m.options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = "btn";
+            let d = opt.deltas || {};
+            let preview = [formatDelta(d.app, "APP"), formatDelta(d.bud, "BUD"), formatDelta(d.mil, "MIL")].filter(x => x !== "").join("\n");
 
-                // 1. Calculate Stat Preview lines
-                let d = opt.deltas || {};
-                let previewLines = [];
-                if (d.app) previewLines.push(formatDelta(d.app, "APP"));
-                if (d.bud) previewLines.push(formatDelta(d.bud, "BUD"));
-                if (d.mil) previewLines.push(formatDelta(d.mil, "MIL"));
-                
-                // 2. Format Benefits/Cons (the 'sub' text)
-                const subText = opt.sub ? `<div style="font-size: 0.65rem; color: var(--dim-text); text-transform: none; margin-top: 4px;">${opt.sub}</div>` : "";
+            btn.innerHTML = `
+                <div style="flex-grow: 1; padding-right: 10px;">
+                    <div style="font-weight: 600;">${opt.text}</div>
+                    <div style="font-size: 0.65rem; color: var(--dim-text); text-transform: none; margin-top: 4px;">${opt.sub}</div>
+                </div>
+                <div class="stat-preview">${preview}</div>
+            `;
+            btn.onclick = () => { opt.run(stats); turn++; updateUI(); if(turn <= 48 && stats.app > 0 && stats.bud > 0 && stats.mil > 0 && !underInquiry) loadMission(); };
+            container.appendChild(btn);
+        });
+    }
 
-                // 3. Set the Button Layout
-                btn.innerHTML = `
-                    <div style="flex-grow: 1; padding-right: 10px;">
-                        <div style="font-weight: 600;">${opt.text}</div>
-                        ${subText}
-                    </div>
-                    <div class="stat-preview">${previewLines.join('\n')}</div>
-                `;
-
-                btn.onclick = () => {
-                    try {
-                        opt.run(stats);
-                        turn++;
-                        updateUI();
-                        if (turn <= 48 && stats.app > 0 && stats.bud > 0 && stats.mil > 0) loadMission();
-                    } catch (choiceErr) {
-                        showError("Mission Logic Error: " + choiceErr.message);
-                    }
-                };
-                container.appendChild(btn);
-            });
-        } catch (e) {
-            showError("Mission Loader Failed: " + e.message);
-        }
+    function getLegacy() {
+        if (stats.app > 80 && stats.mil > 80) return "Legacy: The Great Unifier";
+        if (stats.mil > 80 && stats.app < 30) return "Legacy: The Iron Dictator";
+        if (stats.bud > 2000 && stats.app < 30) return "Legacy: The Greedy Oligarch";
+        if (stats.app > 80 && stats.bud < 200) return "Legacy: The Beloved Spendthrift";
+        if (turn < 12) return "Legacy: A Brief Footnote";
+        return "Legacy: The Average Servant";
     }
 
     function gameOver(reason) {
         showScreen('end-screen');
         document.getElementById('end-reason').innerText = reason;
+        document.getElementById('end-legacy').innerText = getLegacy();
         if (turn >= 48) document.getElementById('end-title').innerText = "Term Successful";
     }
-
-    window.onerror = function(msg, url, line) {
-        showError(`Runtime Error: ${msg} (Line: ${line})`);
-        return true;
-    };
 </script>
 </body>
 </html>
