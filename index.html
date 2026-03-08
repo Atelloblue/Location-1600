@@ -228,49 +228,61 @@
         document.getElementById('stat-mil').innerText = stats.mil + "%";
         document.getElementById('turn-num').innerText = turn + "/48";
 
-        // Logic Check
+        // 1. Check for Trigger FIRST (Before they hit 0)
+        if (stats.app > 0 && stats.app < 15 && !underInquiry) {
+            triggerImpeachment();
+            return; // Stop execution so Game Over doesn't fire yet
+        } 
+        
+        if (stats.mil > 0 && stats.mil < 15 && !underInquiry) {
+            triggerCoup();
+            return; // Stop execution
+        }
+
+        // 2. Check for Hard Game Over
         if (stats.app <= 0) gameOver("IMPEACHED: The Senate has removed you from office.");
         else if (stats.bud <= 0) gameOver("BANKRUPT: National credit has hit zero.");
         else if (stats.mil <= 0) gameOver("COUP: The military has seized the capital.");
         else if (turn >= 48) gameOver("SUCCESS: You served your full term.");
-        
-        // Crisis Trigger
-        else if (stats.app < 15 && !underInquiry) triggerImpeachment();
-        else if (stats.mil < 15 && !underInquiry) triggerCoup();
     }
 
     function triggerImpeachment() {
         underInquiry = true;
         document.getElementById('news-line').innerHTML = `<i class="fa-solid fa-gavel" style="color:var(--error)"></i> CONSTITUTIONAL CRISIS`;
-        document.getElementById('scenario-text').innerText = "With single-digit approval, the House has filed Articles of Impeachment. You must defend your office in the Senate.";
+        document.getElementById('scenario-text').innerText = "Your approval is dangerously low. The House has filed Articles of Impeachment. You must defend your office in the Senate trial.";
         
         renderCrisisOptions([
-            { text: "Lobby the Senate", sub: "Spend $500m on 'political donations'.", run: (s) => { s.bud -= 500; s.app += 15; underInquiry = false; } },
-            { text: "Rally the People", sub: "A risky 50/50 speech to save your seat.", run: (s) => { if(Math.random() > 0.5) { s.app += 25; underInquiry = false; } else { s.app = 0; } } },
-            { text: "Resign", sub: "Exit with a shred of dignity.", run: (s) => { gameOver("RESIGNED: You left office before the trial ended."); } }
+            { text: "Lobby the Senate", sub: "Spend $500m on 'political donations'.", run: (s) => { s.bud -= 500; s.app += 20; } },
+            { text: "Rally the People", sub: "A risky 50/50 speech to save your seat.", run: (s) => { if(Math.random() > 0.5) { s.app += 30; } else { s.app = 0; } } },
+            { text: "Resign", sub: "Exit with a shred of dignity.", run: (s) => { s.app = 0; } }
         ]);
     }
 
     function triggerCoup() {
         underInquiry = true;
         document.getElementById('news-line').innerHTML = `<i class="fa-solid fa-person-rifle" style="color:var(--error)"></i> MILITARY UNREST`;
-        document.getElementById('scenario-text').innerText = "Generals have surrounded the Palace. They claim you've weakened the state and demand you step down immediately.";
+        document.getElementById('scenario-text').innerText = "The Generals claim you've weakened the state. Tanks are moving toward the Palace. They demand your immediate resignation.";
         
         renderCrisisOptions([
-            { text: "Bribe the High Command", sub: "Give the Military $400m.", run: (s) => { s.bud -= 400; s.mil += 20; underInquiry = false; } },
-            { text: "Order Counter-Arrest", sub: "Try to purge the traitors (40% success).", run: (s) => { if(Math.random() > 0.6) { s.mil += 30; underInquiry = false; } else { s.mil = 0; } } },
-            { text: "Flee in Secret", sub: "Escape to a neighboring country.", run: (s) => { gameOver("EXILED: You fled as tanks entered the capital."); } }
+            { text: "Bribe the High Command", sub: "Give the Military $400m.", run: (s) => { s.bud -= 400; s.mil += 25; } },
+            { text: "Order Counter-Arrest", sub: "Try to purge the traitors (40% success).", run: (s) => { if(Math.random() > 0.6) { s.mil += 35; } else { s.mil = 0; } } },
+            { text: "Flee in Secret", sub: "Escape to a neighboring country.", run: (s) => { s.mil = 0; } }
         ]);
     }
 
     function renderCrisisOptions(options) {
         const container = document.getElementById('choice-container');
-        container.innerHTML = "";
+        container.innerHTML = ""; // Clear existing mission buttons
         options.forEach(opt => {
             const btn = document.createElement('button');
             btn.className = "btn";
-            btn.innerHTML = `<div><strong>${opt.text}</strong><br><small>${opt.sub}</small></div>`;
-            btn.onclick = () => { opt.run(stats); updateUI(); if(!underInquiry && stats.app > 0 && stats.mil > 0) loadMission(); };
+            btn.innerHTML = `<div><strong>${opt.text}</strong><br><small>${opt.sub}</small></div><div class="stat-preview">CRISIS</div>`;
+            btn.onclick = () => { 
+                opt.run(stats); 
+                underInquiry = false; // Reset flag AFTER choice is made
+                updateUI(); 
+                if(!underInquiry && stats.app > 0 && stats.mil > 0 && stats.bud > 0) loadMission(); 
+            };
             container.appendChild(btn);
         });
     }
@@ -306,7 +318,12 @@
                 </div>
                 <div class="stat-preview">${preview}</div>
             `;
-            btn.onclick = () => { opt.run(stats); turn++; updateUI(); if(turn <= 48 && stats.app > 0 && stats.bud > 0 && stats.mil > 0 && !underInquiry) loadMission(); };
+            btn.onclick = () => { 
+                opt.run(stats); 
+                turn++; 
+                updateUI(); 
+                if(turn <= 48 && stats.app >= 15 && stats.mil >= 15 && stats.bud > 0) loadMission(); 
+            };
             container.appendChild(btn);
         });
     }
