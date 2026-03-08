@@ -146,21 +146,33 @@
         <button class="btn" style="width: 200px; align-self: center; justify-content: center;" onclick="checkSystem()">Play</button>
     </div>
 
-    <div id="char-screen" class="screen hidden">
-        <h1>Profile Selection</h1>
-        <div class="role-card" onclick="startGame(85, 600, 30)">
-            <i class="fa-solid fa-users"></i>
-            <div><strong>The Populist</strong><br><small>Support 85% | Treasury $600m</small></div>
-        </div>
-        <div class="role-card" onclick="startGame(45, 1800, 40)">
-            <i class="fa-solid fa-briefcase"></i>
-            <div><strong>The Tycoon</strong><br><small>Support 45% | Treasury $1800m</small></div>
-        </div>
-        <div class="role-card" onclick="startGame(35, 900, 95)">
-            <i class="fa-solid fa-shield-halved"></i>
-            <div><strong>The General</strong><br><small>Support 35% | Military 95%</small></div>
+<div id="char-screen" class="screen hidden">
+    <h1>Select Difficulty</h1>
+    
+    <div class="role-card" onclick="startGame(80, 2000, 70)">
+        <i class="fa-solid fa-gauge-low" style="color: #2ecc71;"></i>
+        <div>
+            <strong>EASY MODE</strong><br>
+            <small>High starting stats. Plenty of room for error.</small>
         </div>
     </div>
+
+    <div class="role-card" onclick="startGame(50, 1000, 50)">
+        <i class="fa-solid fa-gauge" style="color: #f1c40f;"></i>
+        <div>
+            <strong>MEDIUM MODE</strong><br>
+            <small>Balanced stats. Requires careful decision making.</small>
+        </div>
+    </div>
+
+    <div class="role-card" onclick="startGame(30, 500, 30)">
+        <i class="fa-solid fa-gauge-high" style="color: #e74c3c;"></i>
+        <div>
+            <strong>HARD MODE</strong><br>
+            <small>Crisis levels. One wrong move could end your term.</small>
+        </div>
+    </div>
+</div>
 
     <div id="game-screen" class="screen hidden">
         <div id="dashboard">
