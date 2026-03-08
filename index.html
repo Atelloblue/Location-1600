@@ -20,12 +20,13 @@
         body {
             background-color: var(--bg);
             color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            line-height: 1.5;
         }
 
         #game-window {
@@ -51,7 +52,6 @@
 
         .hidden { display: none !important; }
 
-        /* DASHBOARD */
         #dashboard {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -95,6 +95,8 @@
             border-bottom: 1px solid var(--border);
         }
 
+        #news-line i { margin-right: 10px; }
+
         #scenario-text {
             flex-grow: 1;
             font-size: 1.1rem;
@@ -132,12 +134,14 @@
             padding: 25px;
             margin-bottom: 12px;
             cursor: pointer;
+            transition: border-color 0.2s;
             display: flex;
             align-items: center;
             gap: 20px;
         }
 
         .role-card:hover { border-color: var(--accent); }
+        .role-card i { font-size: 1.5rem; color: var(--dim-text); }
 
         h1 { font-size: 1.4rem; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 40px; text-align: center; }
 
@@ -152,8 +156,8 @@
 
 <div id="game-window">
     <div id="start-screen" class="screen" style="justify-content: center;">
-        <h1><i class="fa-solid fa-building-columns"></i><br>Oath of Office</h1>
-        <button class="btn" style="width: 200px; align-self: center; justify-content: center;" onclick="showScreen('char-screen')">Play</button>
+        <h1><i class="fa-solid fa-building-columns"></i><br>Executive Sim</h1>
+        <button class="btn" style="width: 200px; align-self: center; justify-content: center;" onclick="showScreen('char-screen')">Initialize</button>
     </div>
 
     <div id="char-screen" class="screen hidden">
@@ -174,20 +178,22 @@
 
     <div id="game-screen" class="screen hidden">
         <div id="dashboard">
-            <div class="dash-box"><i class="fa-solid fa-heart-pulse"></i><span class="dash-label">Approval</span><span id="stat-app" class="dash-value">--</span></div>
-            <div class="dash-box"><i class="fa-solid fa-vault"></i><span class="dash-label">Treasury</span><span id="stat-bud" class="dash-value">--</span></div>
-            <div class="dash-box"><i class="fa-solid fa-jet-fighter"></i><span class="dash-label">Military</span><span id="stat-mil" class="dash-value">--</span></div>
+            <div class="dash-box"><i class="fa-solid fa-heart-pulse"></i><span class="dash-label">App</span><span id="stat-app" class="dash-value">--</span></div>
+            <div class="dash-box"><i class="fa-solid fa-vault"></i><span class="dash-label">Trea</span><span id="stat-bud" class="dash-value">--</span></div>
+            <div class="dash-box"><i class="fa-solid fa-jet-fighter"></i><span class="dash-label">Mil</span><span id="stat-mil" class="dash-value">--</span></div>
             <div class="dash-box"><i class="fa-solid fa-calendar-day"></i><span class="dash-label">Month</span><span id="turn-num" class="dash-value">1</span></div>
         </div>
-        <div id="news-line"></div>
-        <div id="scenario-text"></div>
+        <div id="news-line"><i class="fa-solid fa-folder-open"></i> Intelligence Briefing</div>
+        <div id="scenario-text">Awaiting input...</div>
         <div id="choice-container"></div>
     </div>
 
     <div id="end-screen" class="screen hidden" style="justify-content:center; text-align:center;">
-        <h1 id="end-title">Term Ended</h1>
+        <h1 id="end-title">Term Terminated</h1>
         <p id="end-reason" style="margin-bottom: 40px; color: var(--dim-text);"></p>
-        <button class="btn" style="width: 220px; align-self: center; justify-content: center;" onclick="location.reload()">Re-Initialize</button>
+        <button class="btn" style="width: 220px; align-self: center; justify-content: center;" onclick="location.reload()">
+            <i class="fa-solid fa-rotate-right" style="margin-right: 10px;"></i> Re-Initialize
+        </button>
     </div>
 </div>
 
@@ -206,7 +212,7 @@
     function startGame(app, bud, mil) {
         stats = { app, bud, mil };
         turn = 1;
-        pool = [...missions]; // 'missions' comes from missions.js
+        pool = [...missions]; // 'missions' is now pulled from missions.js
         showScreen('game-screen');
         updateUI();
         loadMission();
@@ -240,7 +246,8 @@
             btn.className = "btn";
             btn.innerHTML = `${opt.text} <i class="fa-solid fa-chevron-right" style="font-size: 0.6rem;"></i>`;
             btn.onclick = () => {
-                opt.run(stats); // Pass stats to the external function
+                // PASSING THE STATS OBJECT TO THE MISSION FUNCTION
+                opt.run(stats);
                 turn++;
                 updateUI();
                 if (turn <= 48 && stats.app > 0 && stats.bud > 0 && stats.mil > 0) loadMission();
