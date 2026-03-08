@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Location 1600</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #121212;
+            --text: #e0e0e0;
+            --dim-text: #666666;
+            --border: #2a2a2a;
+            --accent: #ffffff;
+            --success: #2ecc71;
+            --warning: #f1c40f;
+            --error: #ff4444;
+        }
+
+        * { box-sizing: border-box; border-radius: 0 !important; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        #about-window {
+            width: 100%;
+            max-width: 800px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 30px;
+        }
+
+        h1 { 
+            font-size: 1.5rem; 
+            text-transform: uppercase; 
+            letter-spacing: 8px; 
+            margin: 0;
+            font-weight: 300;
+        }
+
+        header i {
+            color: var(--accent); /* Primary logo icon is now white */
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text);
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .pillar-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .pillar-card {
+            border: 1px solid var(--border);
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .pillar-card i {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: block;
+            color: var(--dim-text); /* Pillar icons remain grey */
+        }
+
+        .pillar-label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .pillar-desc {
+            font-size: 0.8rem;
+            color: var(--dim-text);
+            line-height: 1.4;
+        }
+
+        footer {
+            margin-top: 20px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .legal {
+            font-size: 0.75rem;
+            color: var(--dim-text);
+            max-width: 60%;
+            line-height: 1.6;
+        }
+
+        .btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 15px 25px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-decoration: none;
+            transition: 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            color: var(--bg);
+            border-color: var(--accent);
+        }
+
+        @media (max-width: 650px) {
+            #about-window { padding: 30px; }
+            .pillar-grid { grid-template-columns: 1fr; }
+            footer { flex-direction: column; align-items: flex-start; gap: 30px; }
+            .legal { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="about-window">
+    <header>
+        <i class="fa-solid fa-building-columns"></i>
+        <h1>Location 1600</h1>
+    </header>
+
+    <div class="description">
+        You are the President. Every decision you make impacts the stability of the nation, the strength of the economy, and the loyalty of the state.
+    </div>
+
+    <div class="pillar-grid">
+        <div class="pillar-card">
+            <i class="fa-solid fa-heart-pulse"></i>
+            <span class="pillar-label">Public Trust</span>
+            <span class="pillar-desc">The sentiment of the citizens. Low trust leads to impeachment.</span>
+        </div>
+        <div class="pillar-card">
+            <i class="fa-solid fa-vault"></i>
+            <span class="pillar-label">Treasury</span>
+            <span class="pillar-desc">National liquidity. Bankruptcy ends your term immediately.</span>
+        </div>
+        <div class="pillar-card">
+            <i class="fa-solid fa-jet-fighter"></i>
+            <span class="pillar-label">Military</span>
+            <span class="pillar-desc">Loyalty of the brass. Neglect here results in a coup.</span>
+        </div>
+    </div>
+
+    <footer>
+        <div class="legal">
+            <strong>OPEN SOURCE INITIATIVE</strong><br>
+            Developed with vanilla JS and CSS. Licensed under MIT. Icons provided via Font Awesome Free license.
+        </div>
+        
+        <a href="index.html" class="btn">
+            <i class="fa-solid fa-chevron-left"></i>
+            <span>Return</span>
+        </a>
+    </footer>
+</div>
+
+</body>
+</html>
