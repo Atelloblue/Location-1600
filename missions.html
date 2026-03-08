@@ -30,38 +30,5 @@ const missions = [
             { text: "Mandatory Lockdown", run: (stats) => { stats.bud -= 500; stats.app += 10; } }, 
             { text: "Prioritize Economy", run: (stats) => { stats.bud += 200; stats.app -= 30; } }
         ] 
-    },
-    { 
-        text: "AI automation has displaced 30% of the manufacturing sector. Riots are breaking out.", 
-        news: "Automation Crisis", 
-        options: [
-            { text: "Universal Basic Income", run: (stats) => { stats.bud -= 600; stats.app += 25; } }, 
-            { text: "Deploy Riot Police", run: (stats) => { stats.mil += 15; stats.app -= 20; } }
-        ] 
-    },
-    { 
-        text: "An offshore oil rig has collapsed, devastating the coastline and fishing industry.", 
-        news: "Ecological Disaster", 
-        options: [
-            { text: "Heavy Corporate Fine", run: (stats) => { stats.bud += 300; stats.app += 5; } }, 
-            { text: "Government Cleanup", run: (stats) => { stats.bud -= 400; stats.app += 10; } }
-        ] 
-    },
-    { 
-        text: "Deep space sensors detected an incoming asteroid. Preparation requires massive funding.", 
-        news: "Extinction Threat", 
-        options: [
-            { text: "Fund Deflection Tech", run: (stats) => { stats.bud -= 700; stats.mil += 10; } }, 
-            { text: "Keep it Secret", run: (stats) => { stats.app -= 40; stats.bud += 100; } }
-        ] 
-    },
-    { 
-        text: "The central bank warns of hyperinflation. They suggest freezing all wages.", 
-        news: "Currency Collapse", 
-        options: [
-            { text: "Freeze Wages", run: (stats) => { stats.bud += 200; stats.app -= 25; } }, 
-            { text: "Print More Money", run: (stats) => { stats.bud -= 500; stats.app += 5; } }
-        ] 
     }
 ];
-
