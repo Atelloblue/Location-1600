@@ -92,6 +92,7 @@
         .btn:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
         .btn:hover .stat-preview { color: var(--bg); border-left-color: rgba(0,0,0,0.2); }
 
+        /* New Preview Styling */
         .stat-preview { 
             font-family: monospace; 
             font-size: 0.7rem; 
@@ -100,6 +101,7 @@
             white-space: pre;
             text-align: right;
             line-height: 1.2;
+            min-width: 80px;
         }
 
         .role-card { border: 1px solid var(--border); padding: 25px; margin-bottom: 12px; cursor: pointer; transition: border-color 0.2s; display: flex; align-items: center; gap: 20px; }
@@ -195,7 +197,6 @@
     }
 
     function checkSystem() {
-        // Error check for missing mission file
         if (typeof missions === 'undefined' || !Array.isArray(missions)) {
             showError("Core missions.js file missing or corrupted.");
             return;
@@ -259,17 +260,20 @@
                 const btn = document.createElement('button');
                 btn.className = "btn";
 
-                // Stat preview logic
+                // Stat Preview Logic (from deltas object in missions.js)
                 let d = opt.deltas || {};
                 let previewLines = [];
                 if (d.app) previewLines.push(formatDelta(d.app, "APP"));
                 if (d.bud) previewLines.push(formatDelta(d.bud, "BUD"));
                 if (d.mil) previewLines.push(formatDelta(d.mil, "MIL"));
                 
+                // Benefit and Con Logic (using the 'sub' property)
+                const subText = opt.sub ? `<div style="font-size: 0.65rem; color: var(--dim-text); text-transform: none; margin-top: 4px;">${opt.sub}</div>` : "";
+
                 btn.innerHTML = `
-                    <div>
-                        <div>${opt.text}</div>
-                        <div style="font-size: 0.65rem; color: var(--dim-text); text-transform: none;">${opt.sub || ''}</div>
+                    <div style="flex-grow: 1; padding-right: 10px;">
+                        <div style="font-weight: 600;">${opt.text}</div>
+                        ${subText}
                     </div>
                     <div class="stat-preview">${previewLines.join('\n')}</div>
                 `;
@@ -297,7 +301,6 @@
         if (turn >= 48) document.getElementById('end-title').innerText = "Term Successful";
     }
 
-    // Global catch for unhandled script errors
     window.onerror = function(msg, url, line) {
         showError(`Runtime Error: ${msg} (Line: ${line})`);
         return true;
