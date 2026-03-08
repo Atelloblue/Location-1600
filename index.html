@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -235,8 +235,8 @@
         else if (turn >= 48) gameOver("SUCCESS: You served your full term.");
         
         // Crisis Trigger
-        else if (stats.app < 10 && !underInquiry) triggerImpeachment();
-        else if (stats.mil < 10 && !underInquiry) triggerCoup();
+        else if (stats.app < 15 && !underInquiry) triggerImpeachment();
+        else if (stats.mil < 15 && !underInquiry) triggerCoup();
     }
 
     function triggerImpeachment() {
