@@ -90,6 +90,17 @@
         }
 
         .btn:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+        .btn:hover .stat-preview { color: var(--bg); border-left-color: rgba(0,0,0,0.2); }
+
+        .stat-preview { 
+            font-family: monospace; 
+            font-size: 0.7rem; 
+            padding-left: 15px; 
+            border-left: 1px solid var(--border);
+            white-space: pre;
+            text-align: right;
+            line-height: 1.2;
+        }
 
         .role-card { border: 1px solid var(--border); padding: 25px; margin-bottom: 12px; cursor: pointer; transition: border-color 0.2s; display: flex; align-items: center; gap: 20px; }
         .role-card:hover { border-color: var(--accent); }
@@ -224,6 +235,12 @@
         }
     }
 
+    function formatDelta(val, label) {
+        if (!val) return "";
+        if (val === '?') return `?? ${label}`;
+        return `${val > 0 ? '+' : ''}${val} ${label}`;
+    }
+
     function loadMission() {
         try {
             if (pool.length === 0) pool = [...missions];
@@ -241,7 +258,22 @@
             m.options.forEach(opt => {
                 const btn = document.createElement('button');
                 btn.className = "btn";
-                btn.innerHTML = `${opt.text} <i class="fa-solid fa-chevron-right" style="font-size: 0.6rem;"></i>`;
+
+                // Stat preview logic
+                let d = opt.deltas || {};
+                let previewLines = [];
+                if (d.app) previewLines.push(formatDelta(d.app, "APP"));
+                if (d.bud) previewLines.push(formatDelta(d.bud, "BUD"));
+                if (d.mil) previewLines.push(formatDelta(d.mil, "MIL"));
+                
+                btn.innerHTML = `
+                    <div>
+                        <div>${opt.text}</div>
+                        <div style="font-size: 0.65rem; color: var(--dim-text); text-transform: none;">${opt.sub || ''}</div>
+                    </div>
+                    <div class="stat-preview">${previewLines.join('\n')}</div>
+                `;
+
                 btn.onclick = () => {
                     try {
                         opt.run(stats);
