@@ -1,5 +1,5 @@
 /* Keep this file separated from index.html */
-const missions = [
+const events = [
     { 
         news: "SECURITY BREACH",
         text: "A massive data leak has exposed government secrets. The public is furious and demands transparency.", 
