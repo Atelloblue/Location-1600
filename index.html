@@ -203,7 +203,7 @@
     }
 
     function checkSystem() {
-        if (typeof missions === 'undefined' || !Array.isArray(missions)) {
+        if (typeof events === 'undefined' || !Array.isArray(events)) {
             showError("events.js file missing or corrupted.");
             return;
         }
@@ -219,10 +219,10 @@
         stats = { app, bud, mil };
         turn = 1;
         underInquiry = false;
-        pool = [...missions];
+        pool = [...events];
         showScreen('game-screen');
         updateUI();
-        loadMission();
+        loadEvent();
     }
 
     function updateUI() {
@@ -325,7 +325,7 @@
                 opt.run(stats); 
                 turn++; 
                 updateUI(); 
-                if(turn <= 48 && stats.app >= 15 && stats.mil >= 15 && stats.bud > 0) loadMission(); 
+                if(turn <= 48 && stats.app >= 15 && stats.mil >= 15 && stats.bud > 0) loadEvent(); 
             };
             container.appendChild(btn);
         });
